@@ -1,30 +1,27 @@
-# 📦 Sistem Bukti Keluar Barang (BKB) - PT Terex Indonesia
+# Sistem Surat Barang Keluar (BKB) - PT Terex
 
-Sistem manajemen dokumen web sederhana berbasis **HTML5, CSS3, dan Vanilla JavaScript** untuk mengelola, membuat, serta mencetak **Bukti Keluar Barang (BKB)** pada PT Terex Indonesia.
+Aplikasi web manajemen Surat Bukti Barang Keluar (BKB) berbasis **HTML5, CSS3, JavaScript (ES6), dan JSON**.
 
----
+## 🚀 Fitur Utama
+- **Generasi Nomor BKB Otomatis**: Penomoran format `BKB/YYYY/MM/XXXX` bertambah secara berurutan.
+- **Dynamic Items**: Bebas menambah & menghapus baris daftar barang beserta Serial Number (S/N).
+- **Cetak Surat / Save PDF**: Tampilan cetak profesional lengkap dengan Kop Surat & Tanda Tangan.
+- **Pencarian Real-Time**: Cari surat berdasarkan nomor, penerima, atau SPV.
+- **Persistence Data**: Menggunakan `LocalStorage` & fallback ke `data.json`.
+- **Export / Import JSON**: Fitur download cadangan data `data.json`.
 
-## ✨ Fitur Utama
+## 📁 Struktur File Repository
+```
+├── index.html   # Antarmuka aplikasi web utama & template cetak
+├── style.css    # Style UI modern & cetak print preview
+├── app.js       # Logika interaktif CRUD & penomoran BKB
+├── data.json    # Data dasar/contoh BKB
+└── README.md    # Dokumentasi proyek
+```
 
-- **Aturan Penomoran Otomatis**: Format nomor dokumen otomatis tersusun rapi menggunakan format standar perusahaan:  
-  `[Nomor Urut]/BKB/TRX/[Bulan Romawi]/[Tahun]` (Contoh: `001/BKB/TRX/VII/2026`).
-- **Input Data Departemen**: Pencatatan unit/departemen penerima barang.
-- **Tabel Barang Dinamis**: Kemampuan menambah atau menghapus baris barang (Kode, Serial Number, Deskripsi, Qty, Satuan, Keterangan) secara *real-time* di dalam form modal.
-- **Sistem Cetak & Ekspor PDF**: Modul tampilan cetak terpisah yang siap di-print atau disimpan ke format PDF.
-- **Otorisasi 4 Kolom Tanda Tangan**:
-  - Penerima Barang
-  - Pengirim / Logistik
-  - Supervisor (SPV)
-  - Manager Logistik (**Fariz Asad**)
-- **Penyimpanan Lokal (LocalStorage)**: Data tersimpan di browser tanpa perlu *backend/database* tambahan.
-- **Manajemen Data**: Fitur pencarian (*search*), pencetakan ulang, pengubahan (*edit*), penghapusan (*delete*), serta **Export JSON** & **Reset Data**.
-
----
-
-## 📁 Struktur Berkas
-
-```text
-├── index.html     # Antarmuka pengguna (UI), modal form, dan template cetak
-├── style.css      # Styling tampilan responsive & instruksi layout cetak (@media print)
-├── app.js         # Logika aplikasi, pengelolaan CRUD, penomoran otomatis, & LocalStorage
-└── README.md      # Dokumentasi proyek
+## 🌐 Cara Deploy ke GitHub Pages
+1. Push seluruh file ke dalam repository GitHub Anda.
+2. Buka **Settings** repository di GitHub.
+3. Pilih menu **Pages** di panel sebelah kiri.
+4. Pada bagian **Branch**, pilih `main` atau `master` dan folder `/ (root)`.
+5. Klik **Save**. Situs Anda siap diakses secara online!
