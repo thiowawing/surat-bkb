@@ -1,179 +1,229 @@
-let dataBKB = JSON.parse(localStorage.getItem('dataBKB')) || [];
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Surat Bukti Keluar Barang (BKB) - PT Terex</title>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-document.addEventListener('DOMContentLoaded', () => {
-    tampilkanData();
-});
+<!-- APP CONTAINER -->
+<div class="container">
+    
+    <!-- Alert Box -->
+    <div id="alertBox" class="alert">
+        <i id="alertIcon" class="fa-solid"></i>
+        <span id="alertText"></span>
+    </div>
 
-// Fungsi untuk mengonversi angka bulan menjadi Romawi
-function getRomawiBulan(bulan) {
-    const romawi = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
-    return romawi[bulan];
-}
+    <!-- Header Section -->
+    <div class="header">
+        <h2><i class="fa-solid fa-boxes-packing"></i> Daftar Surat Bukti Keluar Barang (BKB)</h2>
+        <button class="btn btn-add" onclick="bukaModalTambah()">
+            <i class="fa-solid fa-plus"></i> Buat BKB Baru
+        </button>
+    </div>
 
-function tampilkanData(filterData = null) {
-    const tbody = document.getElementById('tabelBKB');
-    tbody.innerHTML = '';
-    const list = filterData || dataBKB;
+    <!-- Toolbar Section (Search & Export) -->
+    <div class="toolbar">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Cari No. Surat / Penerima / Manager / SPV..." onkeyup="cariData()">
+        </div>
+        <div class="toolbar-actions">
+            <button class="btn btn-secondary" onclick="exportJSON()" title="Export JSON">
+                <i class="fa-solid fa-download"></i> Export Data
+            </button>
+            <button class="btn btn-secondary" onclick="resetKeDefault()" title="Reset ke Default JSON">
+                <i class="fa-solid fa-rotate-left"></i> Reset Data
+            </button>
+        </div>
+    </div>
 
-    if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Belum ada data BKB</td></tr>`;
-        return;
-    }
+    <!-- Data Table -->
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%; text-align: center;">No</th>
+                    <th style="width: 20%;">No. Surat BKB</th>
+                    <th style="width: 12%;">Tanggal</th>
+                    <th>Penerima</th>
+                    <th>Manager Logistik</th>
+                    <th>Supervisor (SPV)</th>
+                    <th style="width: 20%; text-align: center;">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="tabelBKB">
+                <!-- Data rendered dynamically -->
+            </tbody>
+        </table>
+    </div>
+</div>
 
-    list.forEach((item, index) => {
-        tbody.innerHTML += `
+<!-- MODAL FORM (TAMBAH / EDIT BKB) -->
+<div id="modalBKB" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle"><i class="fa-solid fa-file-circle-plus"></i> Form Buat Surat BKB</h3>
+            <span class="close-btn" onclick="tutupModal()">&times;</span>
+        </div>
+
+        <form id="formBKB" onsubmit="simpanBKB(event)">
+            <input type="hidden" id="editIndex" value="-1">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>No. Surat BKB (Otomatis)</label>
+                    <input type="text" id="no_surat" readonly required>
+                </div>
+                <div class="form-group">
+                    <label>Tanggal</label>
+                    <input type="date" id="tanggal" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nama Penerima</label>
+                    <input type="text" id="nama_penerima" placeholder="Masukkan nama penerima" required>
+                </div>
+                <!-- MANAGER LOGISTIK AUTOMATIS & PERMANEN -->
+                <div class="form-group">
+                    <label>Nama Manager Logistik</label>
+                    <input type="text" id="nama_manager" value="Budi Santoso" readonly required>
+                </div>
+                <div class="form-group">
+                    <label>Nama Supervisor (SPV)</label>
+                    <input type="text" id="nama_spv" placeholder="Masukkan nama SPV" required>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label>Alamat Pengiriman / Tujuan</label>
+                <textarea id="alamat_penerima" rows="2" placeholder="Masukkan alamat lengkap tujuan..."></textarea>
+            </div>
+
+            <h4 class="section-subtitle">Daftar Barang Keluar</h4>
+
+            <div class="table-responsive">
+                <table class="table-items">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Kode</th>
+                            <th style="width: 20%;">Serial Number</th>
+                            <th>Nama / Deskripsi Barang</th>
+                            <th style="width: 10%;">Qty</th>
+                            <th style="width: 10%;">Satuan</th>
+                            <th style="width: 15%;">Ket</th>
+                            <th style="width: 5%;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="containerBarang">
+                        <!-- Dynamic Item Rows -->
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="button" class="btn btn-secondary" style="margin-top: 10px;" onclick="tambahBarisBarang()">
+                <i class="fa-solid fa-plus"></i> Tambah Baris Barang
+            </button>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="tutupModal()">Batal</button>
+                <button type="submit" class="btn btn-add"><i class="fa-solid fa-floppy-disk"></i> Simpan Surat BKB</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- PRINTABLE TEMPLATE (FOR PRINT / PDF EXPORT) -->
+<div id="printableArea">
+    <div class="print-header">
+        <div>
+            <h2 style="margin: 0;">PT. TEREX INDONESIA</h2>
+            <p style="margin: 5px 0 0 0; font-size: 12px;">Jl. Arjuna Raya No.42A, RT.001/RW.04, Jatiasih, Bekasi</p>
+            <p style="margin: 2px 0 0 0; font-size: 12px;">Telp: (021) 39524114 | Email: info@terex.id</p>
+        </div>
+        <div style="text-align: right;">
+            <h3 style="margin: 0;" id="printNoSurat">BKB/2026/07/0001</h3>
+            <p style="margin: 5px 0 0 0; font-size: 12px;" id="printTanggal">Tanggal: 21/07/2026</p>
+        </div>
+    </div>
+
+    <div class="print-title">
+        <h3 style="margin:0;">SURAT BUKTI KELUAR BARANG (BKB)</h3>
+    </div>
+
+    <table style="width: 100%; font-size: 13px; margin-bottom: 15px;">
+        <tr>
+            <td style="width: 18%; border: none;"><strong>Penerima</strong></td>
+            <td style="width: 2%; border: none;">:</td>
+            <td style="border: none;" id="printPenerima">-</td>
+        </tr>
+        <tr>
+            <td style="border: none;"><strong>Alamat Tujuan</strong></td>
+            <td style="border: none;">:</td>
+            <td style="border: none;" id="printAlamat">-</td>
+        </tr>
+        <tr>
+            <td style="border: none;"><strong>Manager Logistik</strong></td>
+            <td style="border: none;">:</td>
+            <td style="border: none;" id="printManager">-</td>
+        </tr>
+        <tr>
+            <td style="border: none;"><strong>Supervisor</strong></td>
+            <td style="border: none;">:</td>
+            <td style="border: none;" id="printSPV">-</td>
+        </tr>
+    </table>
+
+    <table class="print-table">
+        <thead>
             <tr>
-                <td style="text-align:center;">${index + 1}</td>
-                <td><strong>${item.no_surat}</strong></td>
-                <td>${item.tanggal}</td>
-                <td>${item.nama_penerima}</td>
-                <td>${item.nama_manager || 'Fariz Asad'}</td>
-                <td>${item.nama_spv}</td>
-                <td style="text-align:center;">
-                    <button class="btn btn-info" onclick="cetakBKB(${index})" title="Cetak BKB"><i class="fa-solid fa-print"></i></button>
-                    <button class="btn btn-danger" onclick="hapusBKB(${index})" title="Hapus"><i class="fa-solid fa-trash"></i></button>
-                </td>
+                <th style="width: 5%;">No</th>
+                <th style="width: 15%;">Kode Barang</th>
+                <th style="width: 20%;">Serial Number</th>
+                <th>Nama / Deskripsi Barang</th>
+                <th style="width: 8%;">Qty</th>
+                <th style="width: 10%;">Satuan</th>
+                <th style="width: 15%;">Keterangan</th>
             </tr>
-        `;
-    });
-}
+        </thead>
+        <tbody id="printContainerBarang">
+            <!-- Items generated during print -->
+        </tbody>
+    </table>
 
-function bukaModalTambah() {
-    document.getElementById('formBKB').reset();
-    document.getElementById('editIndex').value = "-1";
-    document.getElementById('containerBarang').innerHTML = '';
-    
-    const hariIni = new Date();
-    const thn = hariIni.getFullYear();
-    const blnRomawi = getRomawiBulan(hariIni.getMonth()); // Mengambil bulan romawi
-    const nomor = String(dataBKB.length + 1).padStart(3, '0'); // 001, 002, dst.
+    <div class="print-footer" style="display: flex; justify-content: space-between;">
+        <div>
+            <p>Penerima,</p>
+            <div class="signature-box"></div>
+            <p>( <span id="printSignPenerima">...................</span> )</p>
+        </div>
+        <div>
+            <p>Staff Logistik,</p>
+            <div class="signature-box"></div>
+            <p>( ................... )</p>
+        </div>
+        <div>
+            <p>Supervisor (SPV),</p>
+            <div class="signature-box"></div>
+            <p>( <span id="printSignSPV">...................</span> )</p>
+        </div>
+        <div>
+            <p>Manager Logistik,</p>
+            <div class="signature-box"></div>
+            <p>( <span id="printSignManager">...................</span> )</p>
+        </div>
+    </div>
+</div>
 
-    // Format Baru: 001/BKB/TRX/VII/2026
-    document.getElementById('no_surat').value = `${nomor}/BKB/TRX/${blnRomawi}/${thn}`;
-    document.getElementById('tanggal').valueAsDate = hariIni;
-    document.getElementById('nama_manager').value = "Fariz Asad";
-
-    // Tambah 1 baris barang default
-    tambahBarisBarang();
-
-    document.getElementById('modalBKB').style.display = 'flex';
-}
-
-function tutupModal() {
-    document.getElementById('modalBKB').style.display = 'none';
-}
-
-function tambahBarisBarang() {
-    const container = document.getElementById('containerBarang');
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td><input type="text" class="item-kode" placeholder="Kode" required style="width:100%"></td>
-        <td><input type="text" class="item-sn" placeholder="S/N" style="width:100%"></td>
-        <td><input type="text" class="item-nama" placeholder="Nama Barang" required style="width:100%"></td>
-        <td><input type="number" class="item-qty" value="1" min="1" required style="width:100%"></td>
-        <td><input type="text" class="item-satuan" value="Pcs" style="width:100%"></td>
-        <td><input type="text" class="item-ket" placeholder="Ket" style="width:100%"></td>
-        <td style="text-align:center;"><button type="button" class="btn btn-danger" onclick="this.closest('tr').remove()">&times;</button></td>
-    `;
-    container.appendChild(row);
-}
-
-function simpanBKB(e) {
-    e.preventDefault();
-    
-    const items = [];
-    document.querySelectorAll('#containerBarang tr').forEach(row => {
-        items.push({
-            kode: row.querySelector('.item-kode').value,
-            sn: row.querySelector('.item-sn').value,
-            nama: row.querySelector('.item-nama').value,
-            qty: row.querySelector('.item-qty').value,
-            satuan: row.querySelector('.item-satuan').value,
-            ket: row.querySelector('.item-ket').value
-        });
-    });
-
-    const bkbBaru = {
-        no_surat: document.getElementById('no_surat').value,
-        tanggal: document.getElementById('tanggal').value,
-        nama_penerima: document.getElementById('nama_penerima').value,
-        nama_manager: document.getElementById('nama_manager').value,
-        nama_spv: document.getElementById('nama_spv').value,
-        alamat_penerima: document.getElementById('alamat_penerima').value,
-        items: items
-    };
-
-    dataBKB.push(bkbBaru);
-    localStorage.setItem('dataBKB', JSON.stringify(dataBKB));
-    
-    tutupModal();
-    tampilkanData();
-}
-
-function hapusBKB(index) {
-    if (confirm("Yakin ingin menghapus data BKB ini?")) {
-        dataBKB.splice(index, 1);
-        localStorage.setItem('dataBKB', JSON.stringify(dataBKB));
-        tampilkanData();
-    }
-}
-
-function cariData() {
-    const keyword = document.getElementById('searchInput').value.toLowerCase();
-    const filtered = dataBKB.filter(d => 
-        d.no_surat.toLowerCase().includes(keyword) ||
-        d.nama_penerima.toLowerCase().includes(keyword) ||
-        d.nama_manager.toLowerCase().includes(keyword) ||
-        d.nama_spv.toLowerCase().includes(keyword)
-    );
-    tampilkanData(filtered);
-}
-
-function cetakBKB(index) {
-    const data = dataBKB[index];
-    
-    document.getElementById('printNoSurat').innerText = data.no_surat;
-    document.getElementById('printTanggal').innerText = `Tanggal: ${data.tanggal}`;
-    document.getElementById('printPenerima').innerText = data.nama_penerima;
-    document.getElementById('printAlamat').innerText = data.alamat_penerima || '-';
-    document.getElementById('printManager').innerText = data.nama_manager || 'Fariz Asad';
-    document.getElementById('printSPV').innerText = data.nama_spv;
-    
-    document.getElementById('printSignPenerima').innerText = data.nama_penerima;
-    document.getElementById('printSignSPV').innerText = data.nama_spv;
-    document.getElementById('printSignManager').innerText = data.nama_manager || 'Fariz Asad';
-
-    const tbody = document.getElementById('printContainerBarang');
-    tbody.innerHTML = '';
-    data.items.forEach((item, i) => {
-        tbody.innerHTML += `
-            <tr>
-                <td style="text-align:center;">${i + 1}</td>
-                <td>${item.kode}</td>
-                <td>${item.sn || '-'}</td>
-                <td>${item.nama}</td>
-                <td style="text-align:center;">${item.qty}</td>
-                <td style="text-align:center;">${item.satuan}</td>
-                <td>${item.ket || '-'}</td>
-            </tr>
-        `;
-    });
-
-    window.print();
-}
-
-function exportJSON() {
-    const blob = new Blob([JSON.stringify(dataBKB, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `backup_BKB_${new Date().toISOString().slice(0,10)}.json`;
-    a.click();
-}
-
-function resetKeDefault() {
-    if (confirm("Apakah kamu yakin ingin mereset/menghapus semua data BKB?")) {
-        localStorage.removeItem('dataBKB');
-        dataBKB = [];
-        tampilkanData();
-    }
-}
+<!-- Custom JS -->
+<script src="app.js"></script>
+</body>
+</html>
