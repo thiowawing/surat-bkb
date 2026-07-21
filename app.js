@@ -1,4 +1,4 @@
-// Data Default awal
+// DATA DEFAULT AWAL
 const defaultDataBKB = [
     {
         no_surat: "001/BKB/TRX/VII/2026",
@@ -70,10 +70,10 @@ function bukaModalTambah() {
     document.getElementById('modalTitle').innerHTML = '<i class="fa-solid fa-file-circle-plus"></i> Form Buat Bukti Keluar Barang';
     document.getElementById('formBKB').reset();
     document.getElementById('editIndex').value = '-1';
-    
+
     document.getElementById('tanggal').valueAsDate = new Date();
     document.getElementById('no_surat').value = generateNoSurat();
-    
+
     document.getElementById('containerBarang').innerHTML = '';
     tambahBarisBarang();
 
@@ -114,7 +114,7 @@ function hapusBarisBarang(btn) {
     }
 }
 
-// FUNGSI SIMPAN
+// FUNGSI SIMPAN DATA
 function simpanBKB(e) {
     e.preventDefault();
 
@@ -159,10 +159,10 @@ function simpanBKB(e) {
 // FUNGSI EDIT DATA
 function editBKB(index) {
     const data = dataBKB[index];
-    
+
     document.getElementById('modalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Edit Bukti Keluar Barang';
     document.getElementById('editIndex').value = index;
-    
+
     document.getElementById('no_surat').value = data.no_surat;
     document.getElementById('tanggal').value = data.tanggal;
     document.getElementById('nama_penerima').value = data.nama_penerima;
@@ -172,7 +172,7 @@ function editBKB(index) {
 
     const container = document.getElementById('containerBarang');
     container.innerHTML = '';
-    
+
     if (data.items && data.items.length > 0) {
         data.items.forEach(item => tambahBarisBarang(item));
     } else {
@@ -273,7 +273,7 @@ function generateNoSurat() {
     const yyyy = today.getFullYear();
     const mm = today.getMonth() + 1;
     const bulanRomawi = getRomawiBulan(mm);
-    
+
     const runningNum = String(dataBKB.length + 1).padStart(3, '0');
     return `${runningNum}/BKB/TRX/${bulanRomawi}/${yyyy}`;
 }
