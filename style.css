@@ -1,39 +1,30 @@
-/* ===================================================
-   LAYOUT TANDA TANGAN & ATURAN CETAK (PRINT STYLES)
-   =================================================== */
-
-/* Container Tanda Tangan Cetak */
+/* Styling Cetak / Print Page */
 .print-footer {
     display: flex !important;
     justify-content: space-between !important;
     align-items: flex-start !important;
-    margin-top: 25px !important;
+    margin-top: 30px !important;
     width: 100% !important;
-    page-break-inside: avoid !important; /* Mencegah kolom tanda tangan terpisah halaman */
+    page-break-inside: avoid !important;
     break-inside: avoid !important;
 }
 
-/* Lebar Setiap Kolom Tanda Tangan */
 .print-footer > div {
     width: 23% !important;
     text-align: center !important;
     box-sizing: border-box !important;
 }
 
-/* Ruang untuk Tanda Tangan */
 .signature-box {
-    height: 50px !important;
+    height: 55px !important;
     margin: 5px 0 !important;
 }
 
-/* Optimasi Khusus Saat Menggunakan Fitur Print / Simpan PDF */
 @media print {
-    /* Sembunyikan elemen aplikasi web yang tidak perlu dicetak */
     body * {
         visibility: hidden;
     }
     
-    /* Hanya tampilkan area printable */
     #printableArea, #printableArea * {
         visibility: visible;
     }
@@ -47,7 +38,6 @@
         margin: 0;
     }
 
-    /* Memastikan 4 Kolom Tanda Tangan Muat Sempurna dalam Satu Baris */
     .print-footer {
         display: flex !important;
         flex-direction: row !important;
