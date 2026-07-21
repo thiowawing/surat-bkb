@@ -1,4 +1,4 @@
-// JavaScript Logic - Sistem Surat Barang Keluar (BKB)
+// JavaScript Logic - Sistem Surat Bukti Keluar Barang  (BKB)
 
 let dataBKB = [];
 let autoIncrementCounter = 1;
