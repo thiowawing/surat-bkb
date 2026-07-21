@@ -1,0 +1,44 @@
+[
+    {
+        "no_surat": "BKB/2026/07/0001",
+        "tanggal": "2026-07-21",
+        "nama_penerima": "PT. Maju Bersama",
+        "nama_spv": "Budi Santoso",
+        "alamat_penerima": "Jl. Industri Raya No. 12, Bekasi",
+        "items": [
+            {
+                "kode": "BRG-001",
+                "sn": "SN1002391",
+                "nama": "Excavator Hydraulic Pump",
+                "qty": 1,
+                "satuan": "Pcs",
+                "ket": "Kondisi Baru"
+            },
+            {
+                "kode": "BRG-002",
+                "sn": "SN9930122",
+                "nama": "Filter Oli Mesin",
+                "qty": 4,
+                "satuan": "Pcs",
+                "ket": "Cadangan"
+            }
+        ]
+    },
+    {
+        "no_surat": "BKB/2026/07/0002",
+        "tanggal": "2026-07-21",
+        "nama_penerima": "CV. Jaya Mandiri",
+        "nama_spv": "Ahmad Dani",
+        "alamat_penerima": "Kawasan Industri MM2100, Cikarang",
+        "items": [
+            {
+                "kode": "BRG-003",
+                "sn": "SN5541098",
+                "nama": "Control Valve Assembly",
+                "qty": 2,
+                "satuan": "Pcs",
+                "ket": "Garansi"
+            }
+        ]
+    }
+]
