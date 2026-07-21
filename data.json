@@ -1,44 +1,46 @@
 [
-    {
-        "no_surat": "BKB/2026/07/0001",
-        "tanggal": "2026-07-21",
-        "nama_penerima": "PT. Maju Bersama",
-        "nama_spv": "Budi Santoso",
-        "alamat_penerima": "Jl. Industri Raya No. 12, Bekasi",
-        "items": [
-            {
-                "kode": "BRG-001",
-                "sn": "SN1002391",
-                "nama": "Excavator Hydraulic Pump",
-                "qty": 1,
-                "satuan": "Pcs",
-                "ket": "Kondisi Baru"
-            },
-            {
-                "kode": "BRG-002",
-                "sn": "SN9930122",
-                "nama": "Filter Oli Mesin",
-                "qty": 4,
-                "satuan": "Pcs",
-                "ket": "Cadangan"
-            }
-        ]
-    },
-    {
-        "no_surat": "BKB/2026/07/0002",
-        "tanggal": "2026-07-21",
-        "nama_penerima": "CV. Jaya Mandiri",
-        "nama_spv": "Ahmad Dani",
-        "alamat_penerima": "Kawasan Industri MM2100, Cikarang",
-        "items": [
-            {
-                "kode": "BRG-003",
-                "sn": "SN5541098",
-                "nama": "Control Valve Assembly",
-                "qty": 2,
-                "satuan": "Pcs",
-                "ket": "Garansi"
-            }
-        ]
-    }
+  {
+    "no_surat": "001/BKB/TRX/VII/2026",
+    "tanggal": "2026-07-21",
+    "nama_penerima": "Budi Santoso",
+    "departemen": "Maintenance & Operasional",
+    "nama_spv": "Ahmad Dahlan",
+    "alamat_penerima": "Site Project Cikarang, Jl. Industri Selatan No. 12",
+    "items": [
+      {
+        "kode": "BRG-001",
+        "sn": "SN-9823112",
+        "nama": "Filter Hydraulic Unit",
+        "qty": 2,
+        "satuan": "Pcs",
+        "ket": "Routine Replacement"
+      },
+      {
+        "kode": "BRG-002",
+        "sn": "SN-1029384",
+        "nama": "O-Ring Seal Set Heavy Duty",
+        "qty": 5,
+        "satuan": "Set",
+        "ket": "Spare Part Cadangan"
+      }
+    ]
+  },
+  {
+    "no_surat": "002/BKB/TRX/VII/2026",
+    "tanggal": "2026-07-22",
+    "nama_penerima": "Rian Hidayat",
+    "departemen": "Logistik & Gudang",
+    "nama_spv": "Suryana",
+    "alamat_penerima": "Workshop Utama Bekasi, Jl. Raya Narogong Km 14",
+    "items": [
+      {
+        "kode": "BRG-015",
+        "sn": "-",
+        "nama": "Oli Pelumas Shell Tellus S2 M 46 (200L)",
+        "qty": 1,
+        "satuan": "Drum",
+        "ket": "Isi Ulang Stok Workshop"
+      }
+    ]
+  }
 ]
