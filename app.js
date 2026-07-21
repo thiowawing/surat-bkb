@@ -246,7 +246,6 @@ function exportJSON() {
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
     downloadAnchor.setAttribute("download", `Data_BKB_PT_Terex_${new Date().toISOString().slice(0,10)}.json`);
-    document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
 }
