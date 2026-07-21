@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Surat Bukti Keluar Barang (BKB) - PT Terex</title>
+    <title>Sistem Surat Barang Keluar (BKB) - PT Terex</title>
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
@@ -22,7 +22,7 @@
 
     <!-- Header Section -->
     <div class="header">
-        <h2><i class="fa-solid fa-boxes-packing"></i> Daftar Surat Bukti Keluar Barang (BKB)</h2>
+        <h2><i class="fa-solid fa-boxes-packing"></i> Daftar Surat Barang Keluar (BKB)</h2>
         <button class="btn btn-add" onclick="bukaModalTambah()">
             <i class="fa-solid fa-plus"></i> Buat BKB Baru
         </button>
@@ -32,7 +32,7 @@
     <div class="toolbar">
         <div class="search-box">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="searchInput" placeholder="Cari No. Surat / Penerima / Manager / SPV..." onkeyup="cariData()">
+            <input type="text" id="searchInput" placeholder="Cari No. Surat / Penerima / SPV..." onkeyup="cariData()">
         </div>
         <div class="toolbar-actions">
             <button class="btn btn-secondary" onclick="exportJSON()" title="Export JSON">
@@ -50,12 +50,11 @@
             <thead>
                 <tr>
                     <th style="width: 5%; text-align: center;">No</th>
-                    <th style="width: 20%;">No. Surat BKB</th>
+                    <th style="width: 22%;">No. Surat BKB</th>
                     <th style="width: 12%;">Tanggal</th>
                     <th>Penerima</th>
-                    <th>Manager Logistik</th>
                     <th>Supervisor (SPV)</th>
-                    <th style="width: 20%; text-align: center;">Aksi</th>
+                    <th style="width: 25%; text-align: center;">Aksi</th>
                 </tr>
             </thead>
             <tbody id="tabelBKB">
@@ -91,11 +90,6 @@
                 <div class="form-group">
                     <label>Nama Penerima</label>
                     <input type="text" id="nama_penerima" placeholder="Masukkan nama penerima" required>
-                </div>
-                <!-- KOLOM MANAGER DIBUAT OTOMATIS "Fariz Asad" & PERMANEN -->
-                <div class="form-group">
-                    <label>Nama Manager Logistik</label>
-                    <input type="text" id="nama_manager" value="Fariz Asad" readonly required>
                 </div>
                 <div class="form-group">
                     <label>Nama Supervisor (SPV)</label>
@@ -145,7 +139,7 @@
 <div id="printableArea">
     <div class="print-header">
         <div>
-            <h2 style="margin: 0;">PT. TEREX </h2>
+            <h2 style="margin: 0;">PT. TEREX INDONESIA</h2>
             <p style="margin: 5px 0 0 0; font-size: 12px;">Jl. Arjuna Raya No.42A, RT.001/RW.04, Jatiasih, Bekasi</p>
             <p style="margin: 2px 0 0 0; font-size: 12px;">Telp: (021) 39524114 | Email: info@terex.id</p>
         </div>
@@ -156,12 +150,12 @@
     </div>
 
     <div class="print-title">
-        <h3 style="margin:0;">SURAT BUKTI KELUAR BARANG (BKB)</h3>
+        <h3 style="margin:0;">SURAT BUKTI BARANG KELUAR (BKB)</h3>
     </div>
 
     <table style="width: 100%; font-size: 13px; margin-bottom: 15px;">
         <tr>
-            <td style="width: 18%; border: none;"><strong>Penerima</strong></td>
+            <td style="width: 15%; border: none;"><strong>Penerima</strong></td>
             <td style="width: 2%; border: none;">:</td>
             <td style="border: none;" id="printPenerima">-</td>
         </tr>
@@ -169,11 +163,6 @@
             <td style="border: none;"><strong>Alamat Tujuan</strong></td>
             <td style="border: none;">:</td>
             <td style="border: none;" id="printAlamat">-</td>
-        </tr>
-        <tr>
-            <td style="border: none;"><strong>Manager Logistik</strong></td>
-            <td style="border: none;">:</td>
-            <td style="border: none;" id="printManager">Fariz Asad</td>
         </tr>
         <tr>
             <td style="border: none;"><strong>Supervisor</strong></td>
@@ -199,14 +188,14 @@
         </tbody>
     </table>
 
-    <div class="print-footer" style="display: flex; justify-content: space-between;">
+    <div class="print-footer">
         <div>
             <p>Penerima,</p>
             <div class="signature-box"></div>
             <p>( <span id="printSignPenerima">...................</span> )</p>
         </div>
         <div>
-            <p>Staff Logistik,</p>
+            <p>Pengirim / Logistik,</p>
             <div class="signature-box"></div>
             <p>( ................... )</p>
         </div>
@@ -214,11 +203,6 @@
             <p>Supervisor (SPV),</p>
             <div class="signature-box"></div>
             <p>( <span id="printSignSPV">...................</span> )</p>
-        </div>
-        <div>
-            <p>Manager Logistik,</p>
-            <div class="signature-box"></div>
-            <p>( <span id="printSignManager">Fariz Asad</span> )</p>
         </div>
     </div>
 </div>
