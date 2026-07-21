@@ -92,9 +92,10 @@
                     <label>Nama Penerima</label>
                     <input type="text" id="nama_penerima" placeholder="Masukkan nama penerima" required>
                 </div>
+                <!-- KOLOM MANAGER DIBUAT OTOMATIS "Fariz Asad" & PERMANEN -->
                 <div class="form-group">
                     <label>Nama Manager Logistik</label>
-                    <input type="text" id="nama_manager" placeholder="Masukkan nama Manager Logistik" required>
+                    <input type="text" id="nama_manager" value="Fariz Asad" readonly required>
                 </div>
                 <div class="form-group">
                     <label>Nama Supervisor (SPV)</label>
@@ -154,7 +155,6 @@
         </div>
     </div>
 
-    <!-- TULISAN DIPERBAIKI PADA BAGIAN INI -->
     <div class="print-title">
         <h3 style="margin:0;">SURAT BUKTI KELUAR BARANG (BKB)</h3>
     </div>
@@ -173,7 +173,7 @@
         <tr>
             <td style="border: none;"><strong>Manager Logistik</strong></td>
             <td style="border: none;">:</td>
-            <td style="border: none;" id="printManager">-</td>
+            <td style="border: none;" id="printManager">Fariz Asad</td>
         </tr>
         <tr>
             <td style="border: none;"><strong>Supervisor</strong></td>
@@ -218,7 +218,7 @@
         <div>
             <p>Manager Logistik,</p>
             <div class="signature-box"></div>
-            <p>( <span id="printSignManager">...................</span> )</p>
+            <p>( <span id="printSignManager">Fariz Asad</span> )</p>
         </div>
     </div>
 </div>
