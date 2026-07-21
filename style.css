@@ -239,7 +239,7 @@ tbody tr:hover {
     font-size: 14px;
 }
 
-/* PRINTABLE AREA (TAMPILAN NORMAL DIBUNYIKAN) */
+/* PRINTABLE AREA (TAMPILAN NORMAL DISEM BUKAN) */
 #printableArea {
     display: none;
 }
